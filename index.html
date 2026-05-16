@@ -581,6 +581,15 @@
     <option value="no">Sin parking</option>
     <option value="dificil">Difícil / limitado</option>
   </select>
+  <select id="langSelect" onchange="setLang(this.value)">
+    <option value="es">Español</option>
+    <option value="eu">Euskera</option>
+    <option value="ca">Català</option>
+    <option value="va">Valencià</option>
+    <option value="gl">Galego</option>
+    <option value="pt">Português</option>
+    <option value="en">English</option>
+  </select>
   <span class="results-info" id="resultsInfo"></span>
 </div>
 
@@ -589,8 +598,8 @@
   <p class="guide-title">Guía de observación segura</p>
   <p class="guide-subtitle">Lo que necesitas saber antes del eclipse</p>
   <div style="display:inline-block; margin-bottom: 24px; padding: 12px 24px; background: rgba(240,192,96,0.08); border: 1px solid rgba(240,192,96,0.5); border-radius: 3px;">
-    <span style="font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-muted);">Fecha del eclipse</span>
-    <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--corona-gold); letter-spacing:0.05em; margin-top:2px;">12 de agosto de 2026</div>
+    <span class="eclipse-date-label" style="font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--text-muted);">Fecha del eclipse</span>
+    <div class="eclipse-date-val" style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--corona-gold); letter-spacing:0.05em; margin-top:2px;">12 de agosto de 2026</div>
   </div>
   <div class="guide-grid">
     <div class="guide-card">
@@ -646,7 +655,28 @@
 <footer>
   <div class="footer-author">Hecho por Asier_Diamond</div>
   <div class="footer-note">Eclipse Solar España · Observa siempre con gafas homologadas ISO 12312-2</div>
+  <div style="margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <span style="font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted);">Visitas mundiales</span>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 0.7rem; color: var(--text-muted);">◎</span>
+      <span id="visitCount" style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--corona-gold); letter-spacing: 0.1em; text-shadow: 0 0 20px rgba(240,192,96,0.3);">—</span>
+      <span style="font-size: 0.7rem; color: var(--text-muted);">◎</span>
+    </div>
+  </div>
 </footer>
+
+<script>
+(async () => {
+  try {
+    const res = await fetch('https://api.counterapi.dev/v1/asierdiamond/dondevereclipse/up');
+    const data = await res.json();
+    const count = data?.count ?? data?.value ?? '—';
+    document.getElementById('visitCount').textContent = Number(count).toLocaleString('es-ES');
+  } catch {
+    document.getElementById('visitCount').textContent = '—';
+  }
+})();
+</script>
 
 <script>
 const raw = [
@@ -689,24 +719,24 @@ const raw = [
   ["Tiermes","Soria","Yacimiento arqueológico",null,"No","20:29:50","1m 40s","https://maps.app.goo.gl/X4Zw7SjSFScoNwvQ7"],
   ["Uxama","Soria","Yacimiento arqueológico",null,"Sí (Difícil)","20:29:25","1m 44s","https://maps.app.goo.gl/xmn5M31akzvDP7cZ7"],
   ["Guadalajara","Guadalajara","Ciudad",null,"Sí","20:31:15","1m 08s","https://maps.app.goo.gl/82RwyHzw8Wr5koNa9"],
-  ["Campo de fútbol de Cabanillas","Guadalajara","Explanada",60,"Sí","19:36:18","1m 06s","https://maps.app.goo.gl/Ur6cQ9SoDKoXzteE7"],
-  ["Mirador del castillo","Guadalajara","Mirador",50,"Sí","19:36:25","1m 03s","https://maps.app.goo.gl/oNLSirLU36zpibMx7"],
-  ["Castillo de Cifuentes","Guadalajara","Mirador",1000,"Sí","19:36:04","1m 30s","https://maps.app.goo.gl/oNLSirLU36zpibMx7"],
-  ["El Calvario de El Casar","Guadalajara","Mirador",1000,"Sí","19:36:10","1m 04s","https://maps.app.goo.gl/TaxoT3885ruQvq3X7"],
-  ["Punto Limpio de Molina de Aragón","Guadalajara","Zona rural",3000,"Sí","19:35:59","1m 40s","https://maps.app.goo.gl/3ckxX4vQ9hr5h38w5"],
-  ["Piscina municipal de Tamajón","Guadalajara","Espacio natural con piscina",200,"Sí","19:35:39","1m 29s","https://maps.app.goo.gl/hzfYkG59jpScLuex5"],
-  ["Campo de fútbol de Tórtola de Henares","Guadalajara","Polideportivo",50,"Sí","19:36:11","1m 14s","https://maps.app.goo.gl/9PNoNWN2XFmtboKA6"],
-  ["Observatorio de Cogolludo","Guadalajara","Mirador",1000,"No","19:35:46","1m 29s","https://maps.app.goo.gl/aSmbWytApR1c5Ci48"],
-  ["Club Motocross Yunquera","Guadalajara","Circuito de carreras",null,"No","19:36:06","1m 16s","https://maps.app.goo.gl/V1pttYxp2Jb3VBjbA"],
-  ["Parque de Ferias de Marchamalo","Guadalajara","Campo de feria",1500,"Sí","19:36:14","1m 09s","https://maps.app.goo.gl/B3QgjC7cfostciJAA"],
-  ["Recinto Ferial de Azuqueca","Guadalajara","Campo de feria",5000,"Sí","19:36:25","58s","https://maps.app.goo.gl/7ADeqm1DXNHHVtP47"],
-  ["Cerro afueras de Cañete","Cuenca","Zona rural",3000,"Sí","19:37:22","1m 10s","https://maps.app.goo.gl/iqSJgS9GxBvjiQLr6"],
-  ["Castillo de Huete","Cuenca","Castillo",1000,"Sí","19:37:10","32s","https://maps.app.goo.gl/sXMJ4FkbwJgehUcC7"],
-  ["Museo Paleontológico de Castilla-La Mancha","Cuenca","Explanada",null,"Sí","19:37:18","56s","https://maps.app.goo.gl/JhbsSPtdREUQR6Zz9"],
-  ["Aparcamiento de la Fuensanta","Cuenca","Explanada",null,"Sí","19:37:18","56s","https://maps.app.goo.gl/Xs7RqphHmBBFwc4NA"],
-  ["Plaza de toros de Cuenca","Cuenca","Plaza de toros",1500,"Sí","19:37:42","1m 06s","https://maps.app.goo.gl/23ujjUQb6D2tWHeF7"],
-  ["Palacio de los Condes de Priego","Cuenca","Plaza",2000,"Sí","19:36:39","1m 19s","https://maps.app.goo.gl/TdU3vSSnAkcXSvgx9"],
-  ["Plaza de toros de Villalba del Rey","Cuenca","Plaza de toros",800,"Sí","19:36:50","1m 01s","https://maps.app.goo.gl/kyKqv6bW968qyrdf8"],
+  ["Campo de fútbol de Cabanillas","Guadalajara","Explanada",60,"Sí","20:36:18","1m 06s","https://maps.app.goo.gl/Ur6cQ9SoDKoXzteE7"],
+  ["Mirador del castillo","Guadalajara","Mirador",50,"Sí","20:36:25","1m 03s","https://maps.app.goo.gl/oNLSirLU36zpibMx7"],
+  ["Castillo de Cifuentes","Guadalajara","Mirador",1000,"Sí","20:36:04","1m 30s","https://maps.app.goo.gl/oNLSirLU36zpibMx7"],
+  ["El Calvario de El Casar","Guadalajara","Mirador",1000,"Sí","20:36:10","1m 04s","https://maps.app.goo.gl/TaxoT3885ruQvq3X7"],
+  ["Punto Limpio de Molina de Aragón","Guadalajara","Zona rural",3000,"Sí","20:35:59","1m 40s","https://maps.app.goo.gl/3ckxX4vQ9hr5h38w5"],
+  ["Piscina municipal de Tamajón","Guadalajara","Espacio natural con piscina",200,"Sí","20:35:39","1m 29s","https://maps.app.goo.gl/hzfYkG59jpScLuex5"],
+  ["Campo de fútbol de Tórtola de Henares","Guadalajara","Polideportivo",50,"Sí","20:36:11","1m 14s","https://maps.app.goo.gl/9PNoNWN2XFmtboKA6"],
+  ["Observatorio de Cogolludo","Guadalajara","Mirador",1000,"No","20:35:46","1m 29s","https://maps.app.goo.gl/aSmbWytApR1c5Ci48"],
+  ["Club Motocross Yunquera","Guadalajara","Circuito de carreras",null,"No","20:36:06","1m 16s","https://maps.app.goo.gl/V1pttYxp2Jb3VBjbA"],
+  ["Parque de Ferias de Marchamalo","Guadalajara","Campo de feria",1500,"Sí","20:36:14","1m 09s","https://maps.app.goo.gl/B3QgjC7cfostciJAA"],
+  ["Recinto Ferial de Azuqueca","Guadalajara","Campo de feria",5000,"Sí","20:36:25","58s","https://maps.app.goo.gl/7ADeqm1DXNHHVtP47"],
+  ["Cerro afueras de Cañete","Cuenca","Zona rural",3000,"Sí","20:37:22","1m 10s","https://maps.app.goo.gl/iqSJgS9GxBvjiQLr6"],
+  ["Castillo de Huete","Cuenca","Castillo",1000,"Sí","20:37:10","32s","https://maps.app.goo.gl/sXMJ4FkbwJgehUcC7"],
+  ["Museo Paleontológico de Castilla-La Mancha","Cuenca","Explanada",null,"Sí","20:37:18","56s","https://maps.app.goo.gl/JhbsSPtdREUQR6Zz9"],
+  ["Aparcamiento de la Fuensanta","Cuenca","Explanada",null,"Sí","20:37:18","56s","https://maps.app.goo.gl/Xs7RqphHmBBFwc4NA"],
+  ["Plaza de toros de Cuenca","Cuenca","Plaza de toros",1500,"Sí","20:37:42","1m 06s","https://maps.app.goo.gl/23ujjUQb6D2tWHeF7"],
+  ["Palacio de los Condes de Priego","Cuenca","Plaza",2000,"Sí","20:36:39","1m 19s","https://maps.app.goo.gl/TdU3vSSnAkcXSvgx9"],
+  ["Plaza de toros de Villalba del Rey","Cuenca","Plaza de toros",800,"Sí","20:36:50","1m 01s","https://maps.app.goo.gl/kyKqv6bW968qyrdf8"],
   ["Els Magraners","Lleida","Espacio natural y Pueblo",4300,"Sí","20:29:05","27s","https://maps.app.goo.gl/sqnHUu7b5ZLKzQEU7"],
   ["Gardeny","Lleida","Explanada",1500,"Sí","20:29:05","27s","https://maps.app.goo.gl/UChnTJBjgYQErfkF7"],
   ["Secà de Sant Pere","Lleida","Explanada",1400,"Sí","20:29:05","27s","https://maps.app.goo.gl/vci57LyXu1WnbNPu6"],
@@ -785,7 +815,545 @@ function parkingCategory(p) {
   return 'si';
 }
 
-// Group by province
+// Parking display translations keyed by category
+const parkingLabels = {
+  es: { si: "Sí", no: "No", dificil: "Difícil" },
+  eu: { si: "Bai", no: "Ez", dificil: "Zaila" },
+  ca: { si: "Sí", no: "No", dificil: "Difícil" },
+  va: { si: "Sí", no: "No", dificil: "Difícil" },
+  gl: { si: "Si", no: "Non", dificil: "Difícil" },
+  pt: { si: "Sim", no: "Não", dificil: "Difícil" },
+  en: { si: "Yes", no: "No", dificil: "Difficult" },
+};
+
+// Parking suffix translations (the part in parentheses)
+const parkingSuffixes = {
+  es: {
+    "Cerca": "Cerca", "Cerca y pagado": "Cerca y pagado", "En el pueblo": "En el pueblo",
+    "Muy pequeño": "Muy pequeño", "Pequeño": "Pequeño", "Solo vehículos Autorizados": "Solo vehículos autorizados",
+    "Área de servicio": "Área de servicio", "Ruta de senderismo": "Ruta de senderismo",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Solo expertos", "Cerca de la ciudad": "Cerca de la ciudad",
+    "Difícil": ""
+  },
+  eu: {
+    "Cerca": "Gertu", "Cerca y pagado": "Gertu eta ordaindua", "En el pueblo": "Herrian",
+    "Muy pequeño": "Oso txikia", "Pequeño": "Txikia", "Solo vehículos Autorizados": "Baimendutako ibilgailuak",
+    "Área de servicio": "Zerbitzu-area", "Ruta de senderismo": "Mendiko bidea",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Adituenztako soilik", "Cerca de la ciudad": "Hiriaren ondoan",
+    "Difícil": ""
+  },
+  ca: {
+    "Cerca": "A prop", "Cerca y pagado": "A prop i de pagament", "En el pueblo": "Al poble",
+    "Muy pequeño": "Molt petit", "Pequeño": "Petit", "Solo vehículos Autorizados": "Vehicles autoritzats",
+    "Área de servicio": "Àrea de servei", "Ruta de senderismo": "Ruta de senderisme",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Només experts", "Cerca de la ciudad": "Prop de la ciutat",
+    "Difícil": ""
+  },
+  va: {
+    "Cerca": "A prop", "Cerca y pagado": "A prop i de pagament", "En el pueblo": "Al poble",
+    "Muy pequeño": "Molt menut", "Pequeño": "Menut", "Solo vehículos Autorizados": "Vehicles autoritzats",
+    "Área de servicio": "Àrea de servici", "Ruta de senderismo": "Ruta de senderisme",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Només experts", "Cerca de la ciudad": "Prop de la ciutat",
+    "Difícil": ""
+  },
+  gl: {
+    "Cerca": "Preto", "Cerca y pagado": "Preto e de pago", "En el pueblo": "No pobo",
+    "Muy pequeño": "Moi pequeno", "Pequeño": "Pequeno", "Solo vehículos Autorizados": "Só vehículos autorizados",
+    "Área de servicio": "Área de servizo", "Ruta de senderismo": "Ruta de sendeirismo",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Só expertos", "Cerca de la ciudad": "Preto da cidade",
+    "Difícil": ""
+  },
+  pt: {
+    "Cerca": "Perto", "Cerca y pagado": "Perto e pago", "En el pueblo": "Na aldeia",
+    "Muy pequeño": "Muito pequeno", "Pequeño": "Pequeno", "Solo vehículos Autorizados": "Só veículos autorizados",
+    "Área de servicio": "Área de serviço", "Ruta de senderismo": "Rota de caminhada",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Só para especialistas", "Cerca de la ciudad": "Perto da cidade",
+    "Difícil": ""
+  },
+  en: {
+    "Cerca": "Nearby", "Cerca y pagado": "Nearby, paid", "En el pueblo": "In the village",
+    "Muy pequeño": "Very small", "Pequeño": "Small", "Solo vehículos Autorizados": "Authorised vehicles only",
+    "Área de servicio": "Service area", "Ruta de senderismo": "Hiking trail",
+    "Ruta de senderismo SOLO PARA EXPERTOS": "Experts only", "Cerca de la ciudad": "Near the city",
+    "Difícil": ""
+  },
+};
+
+// Location type translations
+const tipoLabels = {
+  es: p => p, // already in Spanish
+  eu: {
+    "Calle": "Kalea", "Campo de Fútbol": "Futbol zelaia", "Campo de feria": "Azoka-zelaia",
+    "Campo de fútbol": "Futbol zelaia", "Carretera": "Errepidea", "Castillo": "Gaztelua",
+    "Circuito de carreras": "Lasterketa-zirkuitua", "Ciudad": "Hiria",
+    "Espacio natural": "Natur gunea", "Espacio natural con piscina": "Natur gunea igerilekuarekin",
+    "Espacio natural y Pueblo": "Natur gunea eta herria", "Estación de esquí": "Eski-estazioa",
+    "Explanada": "Azalgunea", "Explanada y Carretera": "Azalgunea eta errepidea",
+    "Lugar de interés histórico": "Interes historikoko lekua", "Mirador": "Miradorea",
+    "Montaña": "Mendia", "Monumento": "Monumentua", "Municipio": "Udalerria",
+    "Parque": "Parkea", "Parque de atracciones": "Jolas-parkea", "Parque natural": "Parke naturala",
+    "Paseo marítimo": "Itsasertzeko pasealekua", "Playa": "Hondartza", "Plaza": "Plaza",
+    "Plaza de toros": "Zezen-plaza", "Polideportivo": "Kiroldegia",
+    "Polígono industrial": "Industria-poligonoa", "Pueblo": "Herria",
+    "Puerto deportivo": "Kirol-portua", "Puerto montañoso": "Mendilepo",
+    "Puerto montañoso y ruta de senderismo": "Mendilepo eta senderismo-bidea",
+    "Villa": "Hirixka", "Villa rural": "Landa-hirixka", "Yacimiento arqueológico": "Aztarnategi arkeologikoa",
+    "Zona rural": "Landa-eremua"
+  },
+  ca: {
+    "Calle": "Carrer", "Campo de Fútbol": "Camp de futbol", "Campo de feria": "Camp de fires",
+    "Campo de fútbol": "Camp de futbol", "Carretera": "Carretera", "Castillo": "Castell",
+    "Circuito de carreras": "Circuit de curses", "Ciudad": "Ciutat",
+    "Espacio natural": "Espai natural", "Espacio natural con piscina": "Espai natural amb piscina",
+    "Espacio natural y Pueblo": "Espai natural i poble", "Estación de esquí": "Estació d'esquí",
+    "Explanada": "Explanada", "Explanada y Carretera": "Explanada i carretera",
+    "Lugar de interés histórico": "Lloc d'interès històric", "Mirador": "Mirador",
+    "Montaña": "Muntanya", "Monumento": "Monument", "Municipio": "Municipi",
+    "Parque": "Parc", "Parque de atracciones": "Parc d'atraccions", "Parque natural": "Parc natural",
+    "Paseo marítimo": "Passeig marítim", "Playa": "Platja", "Plaza": "Plaça",
+    "Plaza de toros": "Plaça de toros", "Polideportivo": "Poliesportiu",
+    "Polígono industrial": "Polígon industrial", "Pueblo": "Poble",
+    "Puerto deportivo": "Port esportiu", "Puerto montañoso": "Port de muntanya",
+    "Puerto montañoso y ruta de senderismo": "Port de muntanya i ruta de senderisme",
+    "Villa": "Vila", "Villa rural": "Vila rural", "Yacimiento arqueológico": "Jaciment arqueològic",
+    "Zona rural": "Zona rural"
+  },
+  va: {
+    "Calle": "Carrer", "Campo de Fútbol": "Camp de futbol", "Campo de feria": "Camp de fires",
+    "Campo de fútbol": "Camp de futbol", "Carretera": "Carretera", "Castillo": "Castell",
+    "Circuito de carreras": "Circuit de curses", "Ciudad": "Ciutat",
+    "Espacio natural": "Espai natural", "Espacio natural con piscina": "Espai natural amb piscina",
+    "Espacio natural y Pueblo": "Espai natural i poble", "Estación de esquí": "Estació d'esquí",
+    "Explanada": "Explanada", "Explanada y Carretera": "Explanada i carretera",
+    "Lugar de interés histórico": "Lloc d'interès històric", "Mirador": "Mirador",
+    "Montaña": "Muntanya", "Monumento": "Monument", "Municipio": "Municipi",
+    "Parque": "Parc", "Parque de atracciones": "Parc d'atraccions", "Parque natural": "Parc natural",
+    "Paseo marítimo": "Passeig marítim", "Playa": "Platja", "Plaza": "Plaça",
+    "Plaza de toros": "Plaça de bous", "Polideportivo": "Poliesportiu",
+    "Polígono industrial": "Polígon industrial", "Pueblo": "Poble",
+    "Puerto deportivo": "Port esportiu", "Puerto montañoso": "Port de muntanya",
+    "Puerto montañoso y ruta de senderisme": "Port de muntanya i ruta de senderisme",
+    "Villa": "Vila", "Villa rural": "Vila rural", "Yacimiento arqueológico": "Jaciment arqueològic",
+    "Zona rural": "Zona rural"
+  },
+  gl: {
+    "Calle": "Rúa", "Campo de Fútbol": "Campo de fútbol", "Campo de feria": "Campo de feira",
+    "Campo de fútbol": "Campo de fútbol", "Carretera": "Estrada", "Castillo": "Castelo",
+    "Circuito de carreras": "Circuíto de carreiras", "Ciudad": "Cidade",
+    "Espacio natural": "Espazo natural", "Espacio natural con piscina": "Espazo natural con piscina",
+    "Espacio natural y Pueblo": "Espazo natural e pobo", "Estación de esquí": "Estación de esquí",
+    "Explanada": "Explanada", "Explanada y Carretera": "Explanada e estrada",
+    "Lugar de interés histórico": "Lugar de interese histórico", "Mirador": "Miradoiro",
+    "Montaña": "Montaña", "Monumento": "Monumento", "Municipio": "Concello",
+    "Parque": "Parque", "Parque de atracciones": "Parque de atraccións", "Parque natural": "Parque natural",
+    "Paseo marítimo": "Paseo marítimo", "Playa": "Praia", "Plaza": "Praza",
+    "Plaza de toros": "Praza de touros", "Polideportivo": "Polideportivo",
+    "Polígono industrial": "Polígono industrial", "Pueblo": "Pobo",
+    "Puerto deportivo": "Porto deportivo", "Puerto montañoso": "Porto de montaña",
+    "Puerto montañoso y ruta de senderismo": "Porto de montaña e ruta de sendeirismo",
+    "Villa": "Vila", "Villa rural": "Vila rural", "Yacimiento arqueológico": "Xacemento arqueolóxico",
+    "Zona rural": "Zona rural"
+  },
+  pt: {
+    "Calle": "Rua", "Campo de Fútbol": "Campo de futebol", "Campo de feria": "Recinto de feira",
+    "Campo de fútbol": "Campo de futebol", "Carretera": "Estrada", "Castillo": "Castelo",
+    "Circuito de carreras": "Circuito de corridas", "Ciudad": "Cidade",
+    "Espacio natural": "Espaço natural", "Espacio natural con piscina": "Espaço natural com piscina",
+    "Espacio natural y Pueblo": "Espaço natural e aldeia", "Estación de esquí": "Estação de esqui",
+    "Explanada": "Esplanada", "Explanada y Carretera": "Esplanada e estrada",
+    "Lugar de interés histórico": "Local de interesse histórico", "Mirador": "Miradouro",
+    "Montaña": "Montanha", "Monumento": "Monumento", "Municipio": "Município",
+    "Parque": "Parque", "Parque de atracciones": "Parque de atrações", "Parque natural": "Parque natural",
+    "Paseo marítimo": "Passeio marítimo", "Playa": "Praia", "Plaza": "Praça",
+    "Plaza de toros": "Praça de touros", "Polideportivo": "Polidesportivo",
+    "Polígono industrial": "Zona industrial", "Pueblo": "Aldeia",
+    "Puerto deportivo": "Marina desportiva", "Puerto montañoso": "Porto de montanha",
+    "Puerto montañoso y ruta de senderismo": "Porto de montanha e rota de caminhada",
+    "Villa": "Vila", "Villa rural": "Vila rural", "Yacimiento arqueológico": "Sítio arqueológico",
+    "Zona rural": "Zona rural"
+  },
+  en: {
+    "Calle": "Street", "Campo de Fútbol": "Football pitch", "Campo de feria": "Fairground",
+    "Campo de fútbol": "Football pitch", "Carretera": "Road", "Castillo": "Castle",
+    "Circuito de carreras": "Racing circuit", "Ciudad": "City",
+    "Espacio natural": "Natural space", "Espacio natural con piscina": "Natural space with pool",
+    "Espacio natural y Pueblo": "Natural space & village", "Estación de esquí": "Ski resort",
+    "Explanada": "Open esplanade", "Explanada y Carretera": "Esplanade & road",
+    "Lugar de interés histórico": "Historic site", "Mirador": "Viewpoint",
+    "Montaña": "Mountain", "Monumento": "Monument", "Municipio": "Municipality",
+    "Parque": "Park", "Parque de atracciones": "Theme park", "Parque natural": "Nature park",
+    "Paseo marítimo": "Seafront promenade", "Playa": "Beach", "Plaza": "Square",
+    "Plaza de toros": "Bullring", "Polideportivo": "Sports centre",
+    "Polígono industrial": "Industrial estate", "Pueblo": "Village",
+    "Puerto deportivo": "Marina", "Puerto montañoso": "Mountain pass",
+    "Puerto montañoso y ruta de senderismo": "Mountain pass & hiking trail",
+    "Villa": "Town", "Villa rural": "Rural town", "Yacimiento arqueológico": "Archaeological site",
+    "Zona rural": "Rural area"
+  }
+};
+
+function translateTipo(tipo, lang) {
+  if (lang === 'es') return tipo;
+  const map = tipoLabels[lang];
+  return (map && map[tipo]) || tipo;
+}
+
+function translateParking(raw, lang) {
+  if (!raw) return translations[lang]?.noParking || 'No';
+  const cat = parkingCategory(raw);
+  const labels = parkingLabels[lang] || parkingLabels.es;
+  const base = labels[cat];
+  const t = translations[lang];
+  const prefix = t?.parkingLegend || 'Parking';
+
+  // Extract suffix in parentheses from original Spanish
+  const suffixMatch = raw.match(/\(([^)]+)\)/);
+  if (!suffixMatch) return `${prefix}: ${base}`;
+
+  const esSuffix = suffixMatch[1].trim();
+  const suffixMap = parkingSuffixes[lang] || parkingSuffixes.es;
+  const translatedSuffix = suffixMap[esSuffix] || esSuffix;
+  return translatedSuffix ? `${prefix}: ${base} (${translatedSuffix})` : `${prefix}: ${base}`;
+}
+
+const translations = {
+  es: {
+    subtitle: "Guía de observación astronómica",
+    h1: "Eclipse Solar<br>en España",
+    totalCount: "117 lugares de observación · 13 provincias",
+    searchPlaceholder: "Buscar lugar o tipo...",
+    allProvinces: "Todas las provincias",
+    parkingAll: "Parking — todos",
+    parkingYes: "Con parking",
+    parkingNo: "Sin parking",
+    parkingHard: "Difícil / limitado",
+    lugarSing: "lugar",
+    lugarPlur: "lugares",
+    labelStart: "Inicio eclipse",
+    labelDuration: "Duración",
+    labelCapacity: "Capacidad",
+    pers: "pers.",
+    mapLink: "Ver en mapa",
+    noParking: "Parking: No",
+    results: n => n === 1 ? "1 resultado" : `${n} resultados`,
+    empty: "◎ Ningún resultado para esta búsqueda",
+    parkingLegend: "Parking",
+    legendYes: "Disponible",
+    legendHard: "Difícil / limitado",
+    legendNo: "No disponible",
+    guideTitle: "Guía de observación segura",
+    guideSub: "Lo que necesitas saber antes del eclipse",
+    eclipseDate: "Fecha del eclipse",
+    eclipseDateVal: "12 de agosto de 2026",
+    guide: [
+      { icon: "🕶️", title: "Gafas de eclipse homologadas", text: "Imprescindible usar gafas con <strong>certificación ISO 12312-2</strong>. Las gafas normales de sol, aunque sean muy oscuras, <strong>no protegen</strong> contra la radiación solar. Cómpralas con antelación en ópticas, planetarios o tiendas especializadas." },
+      { icon: "📷", title: "Fotografiar el eclipse", text: "Para hacer fotos con cámara o móvil apuntando directamente al sol necesitas un <strong>filtro solar ND100000</strong> en el objetivo. Sin él dañarás el sensor. Durante la totalidad (si la hay) puedes retirar el filtro brevemente." },
+      { icon: "🌡️", title: "Qué llevar", text: "Ropa de abrigo (la temperatura baja durante el eclipse), agua y algo de comer si vas a un espacio natural. Lleva una <strong>manta o silla plegable</strong> para estar cómodo durante la observación." },
+      { icon: "🚗", title: "Llega con tiempo", text: "Los lugares populares se llenan rápido. Se recomienda llegar <strong>al menos 1-2 horas antes</strong> del inicio del eclipse. Ten en cuenta el parking disponible en cada lugar (indicado en las tarjetas)." },
+      { icon: "📱", title: "Apps útiles", text: "Descarga una app de astronomía como <strong>Stellarium</strong> o <strong>Solar Eclipse Timer</strong> para seguir el avance del eclipse en tiempo real y saber exactamente cuándo empieza y termina en tu ubicación." },
+      { icon: "☁️", title: "Vigila el tiempo", text: "Consulta la previsión meteorológica el día antes. Si hay nubes en tu zona, valora <strong>desplazarte a un lugar alternativo</strong> con mejor cielo. Las zonas de interior suelen tener más probabilidades de cielo despejado." }
+    ],
+    warning: "⚠️ <strong>Nunca mires al sol directamente</strong> sin protección homologada, ni siquiera durante unos segundos. Puede causar daños permanentes en la retina o ceguera. Esto incluye mirarlo a través del móvil sin filtro, prismáticos o telescopios sin filtro solar adecuado.",
+    madeBy: "Hecho por Asier_Diamond",
+    footerNote: "Eclipse Solar España · Observa siempre con gafas homologadas ISO 12312-2"
+  },
+  eu: {
+    subtitle: "Behaketa astronomikoko gida",
+    h1: "Eklipse Solarra<br>Espainian",
+    totalCount: "117 behaketa-leku · 13 probintzia",
+    searchPlaceholder: "Bilatu lekua edo mota...",
+    allProvinces: "Probintzia guztiak",
+    parkingAll: "Aparkamendua — guztiak",
+    parkingYes: "Aparkalekuarekin",
+    parkingNo: "Aparkalekurik gabe",
+    parkingHard: "Zaila / mugatua",
+    lugarSing: "leku",
+    lugarPlur: "leku",
+    labelStart: "Eklipsearen hasiera",
+    labelDuration: "Iraupena",
+    labelCapacity: "Edukiera",
+    pers: "pert.",
+    mapLink: "Mapan ikusi",
+    noParking: "Aparkalekua: Ez",
+    results: n => n === 1 ? "1 emaitza" : `${n} emaitza`,
+    empty: "◎ Ez dago bilaketa honetarako emaitzarik",
+    parkingLegend: "Aparkamendua",
+    legendYes: "Erabilgarri",
+    legendHard: "Zaila / mugatua",
+    legendNo: "Ez erabilgarri",
+    guideTitle: "Behaketa seguruko gida",
+    guideSub: "Eklipsea baino lehen jakin behar duzuna",
+    eclipseDate: "Eklipsearen data",
+    eclipseDateVal: "2026ko abuztuaren 12a",
+    guide: [
+      { icon: "🕶️", title: "Homologatutako eklipse betaurrekoak", text: "<strong>ISO 12312-2 ziurtagiriarekin</strong> betaurrekoak erabiltzea ezinbestekoa da. Eguzkitako betaurreko normalek, nahiz eta oso ilunak izan, <strong>ez dute babesten</strong> eguzki-erradiazioa. Erosi aurretik optiketan edo planetarioetan." },
+      { icon: "📷", title: "Eklipsea argazkiz hartu", text: "Kamera edo mugikorrarekin zuzenean eguzkiari argazkiak ateratzeko <strong>ND100000 eguzki-iragazkia</strong> behar duzu objetiboan. Gabe, sentsorea kaltetuko duzu. Totalitatearen bitartean iragazkia kendu dezakezu." },
+      { icon: "🌡️", title: "Zer eraman", text: "Berokia (tenperatura jaisten da), ura eta janaria natur espaziora joaten bazara. Eraman <strong>manta edo aulki tolesgarria</strong> behaketarako erosoago egoteko." },
+      { icon: "🚗", title: "Goiz iritsi", text: "Leku ezagunak azkar betetzen dira. <strong>Gutxienez 1-2 ordu lehenago</strong> iristea gomendatzen da. Kontuan hartu txarteletan adierazitako aparkagunea." },
+      { icon: "📱", title: "App erabilgarriak", text: "<strong>Stellarium</strong> edo <strong>Solar Eclipse Timer</strong> bezalako astronomia-app bat deskargatu eklipsearen bilakaera jarraitzeko eta zure kokapen zehatza jakiteko." },
+      { icon: "☁️", title: "Eguraldiari begira", text: "Eguraldi-iragarpena egiaztatu aurreko egunean. Hodeiak badaude, balora ezazu <strong>leku alternatiboa</strong> bilatzea zeru garbiagoarekin." }
+    ],
+    warning: "⚠️ <strong>Inoiz ez begiratu eguzkiari zuzenean</strong> homologatutako babesik gabe, segundu batzuez ere ez. Erretinan kalte iraunkorra edo itsutasuna eragin dezake. Honek mugikorraren bidez begiratzea ere barne hartzen du.",
+    madeBy: "Asier_Diamond-ek egina",
+    footerNote: "Eklipse Solarra Espainia · Beti erabili ISO 12312-2 homologatutako betaurrekoak"
+  },
+  ca: {
+    subtitle: "Guia d'observació astronòmica",
+    h1: "Eclipsi Solar<br>a Espanya",
+    totalCount: "117 llocs d'observació · 13 províncies",
+    searchPlaceholder: "Cerca lloc o tipus...",
+    allProvinces: "Totes les províncies",
+    parkingAll: "Aparcament — tots",
+    parkingYes: "Amb aparcament",
+    parkingNo: "Sense aparcament",
+    parkingHard: "Difícil / limitat",
+    lugarSing: "lloc",
+    lugarPlur: "llocs",
+    labelStart: "Inici eclipsi",
+    labelDuration: "Durada",
+    labelCapacity: "Capacitat",
+    pers: "pers.",
+    mapLink: "Veure al mapa",
+    noParking: "Sense aparcament",
+    results: n => n === 1 ? "1 resultat" : `${n} resultats`,
+    empty: "◎ Cap resultat per a aquesta cerca",
+    parkingLegend: "Aparcament",
+    legendYes: "Disponible",
+    legendHard: "Difícil / limitat",
+    legendNo: "No disponible",
+    guideTitle: "Guia d'observació segura",
+    guideSub: "El que has de saber abans de l'eclipsi",
+    eclipseDate: "Data de l'eclipsi",
+    eclipseDateVal: "12 d'agost de 2026",
+    guide: [
+      { icon: "🕶️", title: "Ulleres d'eclipsi homologades", text: "Imprescindible usar ulleres amb <strong>certificació ISO 12312-2</strong>. Les ulleres de sol normals, per molt fosques que siguin, <strong>no protegeixen</strong> contra la radiació solar. Compra-les amb antelació en òptiques o planetaris." },
+      { icon: "📷", title: "Fotografiar l'eclipsi", text: "Per fer fotos amb càmera o mòbil apuntant directament al sol necessites un <strong>filtre solar ND100000</strong> a l'objectiu. Sense ell danyaràs el sensor. Durant la totalitat pots retirar el filtre breument." },
+      { icon: "🌡️", title: "Què portar", text: "Roba d'abric (la temperatura baixa durant l'eclipsi), aigua i menjar. Porta una <strong>manta o cadira plegable</strong> per estar còmode durant l'observació." },
+      { icon: "🚗", title: "Arriba d'hora", text: "Els llocs populars s'omplen ràpid. Es recomana arribar <strong>almenys 1-2 hores abans</strong>. Tingues en compte l'aparcament disponible indicat a les targetes." },
+      { icon: "📱", title: "Apps útils", text: "Descarrega una app d'astronomia com <strong>Stellarium</strong> o <strong>Solar Eclipse Timer</strong> per seguir l'avenç de l'eclipsi en temps real." },
+      { icon: "☁️", title: "Vigila el temps", text: "Consulta la previsió meteorològica el dia abans. Si hi ha núvols, valora <strong>desplaçar-te a un lloc alternatiu</strong> amb millor cel." }
+    ],
+    warning: "⚠️ <strong>Mai miris el sol directament</strong> sense protecció homologada, ni tan sols uns segons. Pot causar danys permanents a la retina o ceguesa.",
+    madeBy: "Fet per Asier_Diamond",
+    footerNote: "Eclipsi Solar Espanya · Observa sempre amb ulleres homologades ISO 12312-2"
+  },
+  va: {
+    subtitle: "Guia d'observació astronòmica",
+    h1: "Eclipsi Solar<br>a Espanya",
+    totalCount: "117 llocs d'observació · 13 províncies",
+    searchPlaceholder: "Cerca lloc o tipus...",
+    allProvinces: "Totes les províncies",
+    parkingAll: "Aparcament — tots",
+    parkingYes: "Amb aparcament",
+    parkingNo: "Sense aparcament",
+    parkingHard: "Difícil / limitat",
+    lugarSing: "lloc",
+    lugarPlur: "llocs",
+    labelStart: "Inici eclipsi",
+    labelDuration: "Duració",
+    labelCapacity: "Capacitat",
+    pers: "pers.",
+    mapLink: "Vore en el mapa",
+    noParking: "Sense aparcament",
+    results: n => n === 1 ? "1 resultat" : `${n} resultats`,
+    empty: "◎ Cap resultat per a esta cerca",
+    parkingLegend: "Aparcament",
+    legendYes: "Disponible",
+    legendHard: "Difícil / limitat",
+    legendNo: "No disponible",
+    guideTitle: "Guia d'observació segura",
+    guideSub: "El que has de saber abans de l'eclipsi",
+    eclipseDate: "Data de l'eclipsi",
+    eclipseDateVal: "12 d'agost de 2026",
+    guide: [
+      { icon: "🕶️", title: "Ulleres d'eclipsi homologades", text: "Imprescindible usar ulleres amb <strong>certificació ISO 12312-2</strong>. Les ulleres de sol normals, per molt fosques que siguen, <strong>no protegixen</strong> contra la radiació solar. Compra-les amb antelació en òptiques o planetaris." },
+      { icon: "📷", title: "Fotografiar l'eclipsi", text: "Per a fer fotos amb càmera o mòbil apuntant directament al sol necessites un <strong>filtre solar ND100000</strong> en l'objectiu. Sense ell danyaràs el sensor. Durant la totalitat pots retirar el filtre breument." },
+      { icon: "🌡️", title: "Què portar", text: "Roba d'abric (la temperatura baixa durant l'eclipsi), aigua i menjar. Porta una <strong>manta o cadira plegable</strong> per a estar còmode durant l'observació." },
+      { icon: "🚗", title: "Arriba d'hora", text: "Els llocs populars s'omplin ràpid. Es recomana arribar <strong>almenys 1-2 hores abans</strong>. Tingues en compte l'aparcament disponible indicat en les targetes." },
+      { icon: "📱", title: "Apps útils", text: "Descarrega una app d'astronomia com <strong>Stellarium</strong> o <strong>Solar Eclipse Timer</strong> per a seguir l'avanç de l'eclipsi en temps real." },
+      { icon: "☁️", title: "Vigila el temps", text: "Consulta la previsió meteorològica el dia d'abans. Si hi ha núvols, valora <strong>desplaçar-te a un lloc alternatiu</strong> amb millor cel." }
+    ],
+    warning: "⚠️ <strong>Mai mires el sol directament</strong> sense protecció homologada, ni tan sols uns segons. Pot causar danys permanents en la retina o ceguesa.",
+    madeBy: "Fet per Asier_Diamond",
+    footerNote: "Eclipsi Solar Espanya · Observa sempre amb ulleres homologades ISO 12312-2"
+  },
+  gl: {
+    subtitle: "Guía de observación astronómica",
+    h1: "Eclipse Solar<br>en España",
+    totalCount: "117 lugares de observación · 13 provincias",
+    searchPlaceholder: "Buscar lugar ou tipo...",
+    allProvinces: "Todas as provincias",
+    parkingAll: "Aparcamento — todos",
+    parkingYes: "Con aparcamento",
+    parkingNo: "Sen aparcamento",
+    parkingHard: "Difícil / limitado",
+    lugarSing: "lugar",
+    lugarPlur: "lugares",
+    labelStart: "Inicio eclipse",
+    labelDuration: "Duración",
+    labelCapacity: "Capacidade",
+    pers: "pers.",
+    mapLink: "Ver no mapa",
+    noParking: "Sen aparcamento",
+    results: n => n === 1 ? "1 resultado" : `${n} resultados`,
+    empty: "◎ Ningún resultado para esta busca",
+    parkingLegend: "Aparcamento",
+    legendYes: "Dispoñible",
+    legendHard: "Difícil / limitado",
+    legendNo: "Non dispoñible",
+    guideTitle: "Guía de observación segura",
+    guideSub: "O que precisas saber antes do eclipse",
+    eclipseDate: "Data do eclipse",
+    eclipseDateVal: "12 de agosto de 2026",
+    guide: [
+      { icon: "🕶️", title: "Gafas de eclipse homologadas", text: "Imprescindible usar gafas con <strong>certificación ISO 12312-2</strong>. As gafas normais de sol, aínda que sexan moi escuras, <strong>non protexen</strong> contra a radiación solar. Mércaas con antelación en ópticas ou planetarios." },
+      { icon: "📷", title: "Fotografar o eclipse", text: "Para facer fotos con cámara ou móbil apuntando directamente ao sol necesitas un <strong>filtro solar ND100000</strong> no obxectivo. Sen el danaras o sensor." },
+      { icon: "🌡️", title: "Que levar", text: "Roupa de abrigo (a temperatura baixa durante o eclipse), auga e algo de comer. Leva unha <strong>manta ou cadeira dobrable</strong> para estar cómodo." },
+      { icon: "🚗", title: "Chega con tempo", text: "Os lugares populares énchense rápido. Recoméndase chegar <strong>polo menos 1-2 horas antes</strong>. Ten en conta o aparcamento dispoñible indicado nas tarxetas." },
+      { icon: "📱", title: "Apps útiles", text: "Descarga unha app de astronomía como <strong>Stellarium</strong> ou <strong>Solar Eclipse Timer</strong> para seguir o avance do eclipse en tempo real." },
+      { icon: "☁️", title: "Vixía o tempo", text: "Consulta a previsión meteorolóxica o día antes. Se hai nubes na túa zona, valora <strong>desprazarte a un lugar alternativo</strong> con mellor ceo." }
+    ],
+    warning: "⚠️ <strong>Nunca mires o sol directamente</strong> sen protección homologada, nin sequera uns segundos. Pode causar danos permanentes na retina ou cegueira.",
+    madeBy: "Feito por Asier_Diamond",
+    footerNote: "Eclipse Solar España · Observa sempre con gafas homologadas ISO 12312-2"
+  },
+  pt: {
+    subtitle: "Guia de observação astronómica",
+    h1: "Eclipse Solar<br>em Espanha",
+    totalCount: "117 locais de observação · 13 províncias",
+    searchPlaceholder: "Pesquisar local ou tipo...",
+    allProvinces: "Todas as províncias",
+    parkingAll: "Estacionamento — todos",
+    parkingYes: "Com estacionamento",
+    parkingNo: "Sem estacionamento",
+    parkingHard: "Difícil / limitado",
+    lugarSing: "local",
+    lugarPlur: "locais",
+    labelStart: "Início do eclipse",
+    labelDuration: "Duração",
+    labelCapacity: "Capacidade",
+    pers: "pes.",
+    mapLink: "Ver no mapa",
+    noParking: "Sem estacionamento",
+    results: n => n === 1 ? "1 resultado" : `${n} resultados`,
+    empty: "◎ Nenhum resultado para esta pesquisa",
+    parkingLegend: "Estacionamento",
+    legendYes: "Disponível",
+    legendHard: "Difícil / limitado",
+    legendNo: "Não disponível",
+    guideTitle: "Guia de observação segura",
+    guideSub: "O que precisas de saber antes do eclipse",
+    eclipseDate: "Data do eclipse",
+    eclipseDateVal: "12 de agosto de 2026",
+    guide: [
+      { icon: "🕶️", title: "Óculos de eclipse homologados", text: "Imprescindível usar óculos com <strong>certificação ISO 12312-2</strong>. Os óculos de sol normais, por muito escuros que sejam, <strong>não protegem</strong> contra a radiação solar. Compra-os com antecedência em óticas ou planetários." },
+      { icon: "📷", title: "Fotografar o eclipse", text: "Para tirar fotos com câmara ou telemóvel apontados diretamente ao sol precisas de um <strong>filtro solar ND100000</strong> na objetiva. Sem ele danificarás o sensor." },
+      { icon: "🌡️", title: "O que levar", text: "Roupa quente (a temperatura desce durante o eclipse), água e comida. Leva um <strong>cobertor ou cadeira dobrável</strong> para estares confortável." },
+      { icon: "🚗", title: "Chega cedo", text: "Os locais populares enchem-se rapidamente. Recomenda-se chegar <strong>pelo menos 1-2 horas antes</strong>. Tem em conta o estacionamento disponível indicado nos cartões." },
+      { icon: "📱", title: "Apps úteis", text: "Descarrega uma app de astronomia como o <strong>Stellarium</strong> ou o <strong>Solar Eclipse Timer</strong> para acompanhar o eclipse em tempo real." },
+      { icon: "☁️", title: "Vigia o tempo", text: "Consulta a previsão meteorológica no dia anterior. Se houver nuvens, considera <strong>deslocar-te para um local alternativo</strong> com céu mais limpo." }
+    ],
+    warning: "⚠️ <strong>Nunca olhes diretamente para o sol</strong> sem proteção homologada, nem por uns segundos. Pode causar danos permanentes na retina ou cegueira.",
+    madeBy: "Feito por Asier_Diamond",
+    footerNote: "Eclipse Solar Espanha · Observa sempre com óculos homologados ISO 12312-2"
+  },
+  oc: null,
+  gi: null,
+  en: {
+    subtitle: "Astronomical observation guide",
+    h1: "Solar Eclipse<br>in Spain",
+    totalCount: "117 observation spots · 13 provinces",
+    searchPlaceholder: "Search place or type...",
+    allProvinces: "All provinces",
+    parkingAll: "Parking — all",
+    parkingYes: "With parking",
+    parkingNo: "No parking",
+    parkingHard: "Difficult / limited",
+    lugarSing: "spot",
+    lugarPlur: "spots",
+    labelStart: "Eclipse start",
+    labelDuration: "Duration",
+    labelCapacity: "Capacity",
+    pers: "people",
+    mapLink: "View on map",
+    noParking: "No parking",
+    results: n => n === 1 ? "1 result" : `${n} results`,
+    empty: "◎ No results found for this search",
+    parkingLegend: "Parking",
+    legendYes: "Available",
+    legendHard: "Difficult / limited",
+    legendNo: "Not available",
+    guideTitle: "Safe observation guide",
+    guideSub: "What you need to know before the eclipse",
+    eclipseDate: "Eclipse date",
+    eclipseDateVal: "12th August 2026",
+    guide: [
+      { icon: "🕶️", title: "Certified eclipse glasses", text: "You must use glasses with <strong>ISO 12312-2 certification</strong>. Regular sunglasses, no matter how dark, <strong>do not protect</strong> against solar radiation. Buy them in advance at opticians, planetariums or specialist shops." },
+      { icon: "📷", title: "Photographing the eclipse", text: "To take photos with a camera or phone pointed directly at the sun you need an <strong>ND100000 solar filter</strong> on the lens. Without one you will damage the sensor. During totality you can briefly remove the filter." },
+      { icon: "🌡️", title: "What to bring", text: "Warm clothing (temperature drops during the eclipse), water and food if you're going somewhere outdoors. Bring a <strong>blanket or folding chair</strong> for comfort during observation." },
+      { icon: "🚗", title: "Arrive early", text: "Popular spots fill up fast. It is recommended to arrive <strong>at least 1-2 hours before</strong> the eclipse starts. Check the parking availability shown on each card." },
+      { icon: "📱", title: "Useful apps", text: "Download an astronomy app such as <strong>Stellarium</strong> or <strong>Solar Eclipse Timer</strong> to track the eclipse in real time and know exactly when it starts and ends at your location." },
+      { icon: "☁️", title: "Watch the weather", text: "Check the forecast the day before. If there are clouds in your area, consider <strong>moving to an alternative location</strong> with clearer skies. Inland areas tend to have better chances." }
+    ],
+    warning: "⚠️ <strong>Never look directly at the sun</strong> without certified protection, not even for a few seconds. It can cause permanent retinal damage or blindness. This includes looking through a phone without a filter, binoculars or telescopes without a proper solar filter.",
+    madeBy: "Made by Asier_Diamond",
+    footerNote: "Solar Eclipse Spain · Always observe with ISO 12312-2 certified glasses"
+  }
+};
+
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  // Update dropdown
+  document.getElementById('langSelect').value = lang;
+
+  // Header
+  document.querySelector('.subtitle').textContent = t.subtitle;
+  document.querySelector('h1').innerHTML = t.h1;
+  document.getElementById('totalCount').textContent = t.totalCount;
+
+  // Search & filters
+  document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+  const provSel = document.getElementById('provinciaFilter');
+  provSel.options[0].textContent = t.allProvinces;
+  const parkSel = document.getElementById('parkingFilter');
+  parkSel.options[0].textContent = t.parkingAll;
+  parkSel.options[1].textContent = t.parkingYes;
+  parkSel.options[2].textContent = t.parkingNo;
+  parkSel.options[3].textContent = t.parkingHard;
+
+  // Parking legend
+  document.querySelector('.legend-label').textContent = t.parkingLegend;
+  const legendItems = document.querySelectorAll('.legend-item');
+  legendItems[0].innerHTML = `<span class="legend-dot dot-si"></span> ${t.legendYes}`;
+  legendItems[1].innerHTML = `<span class="legend-dot dot-dificil"></span> ${t.legendHard}`;
+  legendItems[2].innerHTML = `<span class="legend-dot dot-no"></span> ${t.legendNo}`;
+
+  // Guide section
+  document.querySelector('.guide-title').textContent = t.guideTitle;
+  document.querySelector('.guide-subtitle').textContent = t.guideSub;
+  document.querySelector('.eclipse-date-label').textContent = t.eclipseDate;
+  document.querySelector('.eclipse-date-val').textContent = t.eclipseDateVal;
+  const guideCards = document.querySelectorAll('.guide-card');
+  t.guide.forEach((g, i) => {
+    if (guideCards[i]) {
+      guideCards[i].querySelector('.guide-card-title').textContent = g.title;
+      guideCards[i].querySelector('p').innerHTML = g.text;
+    }
+  });
+  document.querySelector('.guide-warning').innerHTML = t.warning;
+
+  // Footer
+  document.querySelector('.footer-author').textContent = t.madeBy;
+  document.querySelector('.footer-note').textContent = t.footerNote;
+
+  // Re-render cards with new language
+  filter();
+}
+
 const byProv = {};
 raw.forEach(r => {
   const prov = r[1];
@@ -805,7 +1373,7 @@ const main = document.getElementById('main');
 const emptyState = document.getElementById('emptyState');
 
 function render(data) {
-  // Remove old sections
+  const t = translations[currentLang];
   main.querySelectorAll('.province-section').forEach(el => el.remove());
 
   const grouped = {};
@@ -824,36 +1392,37 @@ function render(data) {
     sec.innerHTML = `
       <div class="province-header">
         <span class="province-name">${prov}</span>
-        <span class="province-count">${rows.length} lugar${rows.length > 1 ? 'es' : ''}</span>
+        <span class="province-count">${rows.length} ${rows.length > 1 ? t.lugarPlur : t.lugarSing}</span>
       </div>
       <div class="cards-grid">${rows.map(r => `
         <div class="card">
           <div class="card-name">${r[0]}</div>
           <div class="card-meta">
-            <span class="badge badge-tipo">${r[2]}</span>
-            <span class="badge ${parkingClass(r[4])}">${r[4] || 'Sin parking'}</span>
+            <span class="badge badge-tipo">${translateTipo(r[2], currentLang)}</span>
+            <span class="badge ${parkingClass(r[4])}">${translateParking(r[4], currentLang)}</span>
           </div>
           <div class="card-data">
             <div class="data-item">
-              <span class="data-label">Inicio eclipse</span>
+              <span class="data-label">${t.labelStart}</span>
               <span class="data-value highlight">${r[5]}</span>
             </div>
             <div class="data-item">
-              <span class="data-label">Duración</span>
+              <span class="data-label">${t.labelDuration}</span>
               <span class="data-value highlight">${r[6]}</span>
             </div>
             ${r[3] ? `<div class="data-item">
-              <span class="data-label">Capacidad</span>
-              <span class="data-value">${r[3].toLocaleString('es-ES')} pers.</span>
+              <span class="data-label">${t.labelCapacity}</span>
+              <span class="data-value">${r[3].toLocaleString('es-ES')} ${t.pers}</span>
             </div>` : ''}
           </div>
-          <a class="map-link" href="${r[7]}" target="_blank" rel="noopener">Ver en mapa</a>
+          <a class="map-link" href="${r[7]}" target="_blank" rel="noopener">${t.mapLink}</a>
         </div>`).join('')}
       </div>`;
     main.insertBefore(sec, emptyState);
   });
 
-  document.getElementById('resultsInfo').textContent = total > 0 ? `${total} resultado${total !== 1 ? 's' : ''}` : '';
+  document.getElementById('resultsInfo').textContent = total > 0 ? t.results(total) : '';
+  emptyState.textContent = t.empty;
   emptyState.style.display = total === 0 ? 'block' : 'none';
 }
 
